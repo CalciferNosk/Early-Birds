@@ -1,0 +1,24 @@
+
+
+/*
+
+    use this standard template for designing 
+
+
+*/
+
+.eb-button{
+
+    background-color: #2caae5;
+    color: white;
+}
+.eb-button-hover:hover{
+    background-color: #2caae5;
+    color: white;
+}
+.eb-font{
+    color:#30c3cc;
+}
+.eb-font-hover:hover{
+    color:#2caae5;
+}

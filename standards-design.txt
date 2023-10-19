@@ -1,0 +1,17 @@
+color : #30c3cc , #2caae5
+
+class : eb-class, eb-login        // always yung dash in class
+
+php variable : $eb_class,$eb_login// use snake case "_"
+
+php function : getData , loginUser// always use camel case
+
+js variable : eb_class ,eb_login  //snake case
+
+js function : LoginUser,GetComment// Pascal case
+
+routing: ' $route['user-login']   // Kebab Case
+
+model : LoginModel.php 		  // Pascal Case and always add Model at the end;
+
+controller : LoginController.php  // Pascal Case and always add Model at the end;
