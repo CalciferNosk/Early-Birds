@@ -10,6 +10,9 @@ class LoginController extends CI_Controller {
      }
 	public function index()
 	{   
+        if(isset($_SESSION['role'])){
+            redirect('main-view');
+        }
         $data['script'] = 'login';
         _load_view($data,'LoginView');
 	}
@@ -19,16 +22,17 @@ class LoginController extends CI_Controller {
 
        if(isset($post)){
         $result =  $this->login_m->getUserByUsername($post['username']);
+
         if(!empty($result)){
             if (password_verify($post['password'], $result->password)) {
                 $data['resultfetch'] = 1;
-                // $data['role'] = $result->role;
+
                 $_SESSION['GeneratedId']  = $result->GeneratedId;
                 $_SESSION['role']  =  $result->role;
             } else {
                 $data['resultfetch'] = 0;
-            }
-        }
+            };
+        };
         echo  json_encode($data);
        }
     }
@@ -36,7 +40,8 @@ class LoginController extends CI_Controller {
     public function mainView(){
 
         if(!isset($_SESSION['role']) || $_SESSION['role'] >= 3){
-            redirect();
+            
+            redirect('default');
         }
 
         if($_SESSION['role'] == 0){
