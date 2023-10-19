@@ -1,0 +1,11 @@
+RewriteEngine On
+
+# Note - the system assets folder has been renamed to asset
+# to make it different. It doesn't like them being the same
+# with this implementation. Especially if we match on /assets or assets.
+
+RewriteRule ^/?assets/?$ /asset/$1 [L]
+
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^(.*)$ index.php/$1 [L]
