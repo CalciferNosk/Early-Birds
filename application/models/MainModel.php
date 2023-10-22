@@ -130,4 +130,13 @@ class MainModel extends CI_Model
 
         return $p_count + $sub_count;;
     }
+    public function storeComment($data){
+        return  $this->db->insert('tbl_newsfeed_comments',$data);
+    }
+    public function getDataControl($id){
+        $sql = "SELECT * FROM file_sytem.tbl_data_control WHERE UserId = '{$id}'";
+        $result = $this->db->query($sql);
+
+        return $result->row();
+    }
 }

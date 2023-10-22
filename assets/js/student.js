@@ -7,74 +7,10 @@ $(document).on('click','#logout',function(){
 })
 
 $(window).on('load',function(){
-    loadNewsFeed();
+    // loadNewsFeed();
 })
 
-$(document).ready(function () {
-	$("#create-post-submit").on("submit", function (e) {
-		e.preventDefault();
-        var formData = new FormData($(this).get(0));
-		var text_post = $("#text-post").val();
-		var file_post = $("#file-post").val();
-		if (text_post == "") {
-			Swal.fire({
-				icon: "error",
-				title: "Oops...",
-				text: "Empty post! Please Check.",
-				// footer: '<a href="">Why do I have this issue?</a>'
-			});
 
-			return false;
-		}
-		if (file_post == "") {
-			Swal.fire({
-				title: "Attachment photo is empty?",
-				text: "Do you want to Continue?",
-				showDenyButton: true,
-				showCancelButton: false,
-				confirmButtonText: "Continue",
-				denyButtonText: `cancel`,
-			}).then((result) => {
-				/* Read more about isConfirmed, isDenied below */
-				if (result.isConfirmed) {
-					createPost(formData);
-                    $("#create-post").modal('hide');
-				} else if (result.isDenied) {
-					return false;
-				}
-			});
-		}
-        else{
-            createPost(formData);
-            $("#create-post").modal('hide');
-        }
-	});
-
-	
-});
-function createPost(formData) {
-    $.ajax({
-        type: "POST",
-        url: `${base_url}add-post`,
-        data: formData,
-        processData: false,
-        contentType: false,
-        dataType: "json",
-        success: function (data) {
-            console.log(data.upload_msg);
-            if(data.upload_msg == 0){
-                loadNewsFeed();
-            }
-            else{
-                Swal.fire({
-                    icon: 'error',
-                    title: 'Oops...',
-                    text: 'Something went wrong! not save!',
-                  })
-            }
-        },
-    });
-}
 
 function loadNewsFeed(){
    

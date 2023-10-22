@@ -45,14 +45,14 @@ if (!isset($_SESSION['GeneratedId'])) redirect('') ?>
 
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link eb-font-hover " data-mdb-toggle="modal" data-mdb-target="#create-post" id="home" href="#"><i class="far fa-images"></i></i> create post</a>
+                        <a class="nav-link eb-font-hover " data-create="<?= $data_control->CreatePost?>" data-mdb-toggle="modal" id="CreatePost" href="#"><i class="far fa-images"></i></i> create post</a>
                     </li>
                     &nbsp;
                     <li class="nav-item">
-                        <a class="nav-link eb-font-hover" id="team" href="#"><i class="fas fa-arrows-rotate"></i></i> refresh</a>
+                        <a class="nav-link eb-font-hover" id="team" href="" ><i class="fas fa-arrows-rotate"></i></i> refresh</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link eb-font-hover" id="quiz" href="#"></i><i class="fas fa-comment-dots"></i></i> Chat</a>
+                        <a class="nav-link eb-font-hover" id="Chat" data-allowed="<?= $data_control->Chat?>"  href="#"></i><i class="fas fa-comment-dots"></i></i> Chat</a>
                     </li>
                 </ul>
                 <!-- Left links -->
@@ -172,77 +172,84 @@ if (!isset($_SESSION['GeneratedId'])) redirect('') ?>
                                     <i class="fas fa-share me-2"></i>Share
                                 </button>
                             </div>
+                            <?php if($data_control->Comment == 1): ?>
                             <div class="d-flex mb-3 ">
                                 <a href="">
                                     <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
                                 </a>
                                 <div class="form-outline w-100 d-flex">
-                                    <textarea class="form-control" id="comment-parent-3" rows="2"></textarea>
-                                    <label class="form-label" for="comment-3">Write a comment</label>
-                                    <i class="fas fa-paper-plane eb-send comment-parent" data-nfid="3"></i>
+                                    <textarea class="form-control" id="comment-parent-<?=$news['id']?>" rows="2"></textarea>
+                                    <label class="form-label" for="comment-<?= $news['id'] ?>">Write a comment</label>
+                                    <i class="fas fa-paper-plane eb-send comment-parent" data-nfid="<?= $news['id']?>"></i>
                                 </div>
                             </div>
+                            <?php endif; ?>
                             <!-- here -->
-                            <?php
-                            if ($news['comments'] != null) :
-                                foreach ($news['comments'] as $key => $comment) : ?>
-                                    <div class="d-flex mb-3 ">
-                                        <a href="">
-                                            <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
-                                        </a>
-                                        <div>
-                                            <div class="bg-light rounded-3 px-3 py-1">
-                                                <a href="" class="text-dark mb-0">
-                                                    <strong><?= $comment['CreatedBy'] ?></strong>
-                                                </a>
-                                                <a href="" class="text-muted d-block">
-                                                    <small>
-                                                        <?= $comment['comment'] ?></small>
-                                                </a>
-                                            </div>
-                                            <a href="" class="text-muted small ms-3 me-2"><strong>Like</strong></a>
-                                            <a href="" class="text-muted small me-2" data-id="3"><strong>Reply</strong></a>
-                                            <br><br>
-                                            <?php if ($comment['sub_comment'] != null) :
-                                                foreach ($comment['sub_comment'] as $key_sub => $sub) : ?>
-                                                    <div class="d-flex mb-3">
-                                                        <a href="">
-                                                            <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
-                                                        </a>
-                                                        <div>
-                                                            <div class="bg-light rounded-3 px-3 py-1">
-                                                                <a href="" class="text-dark mb-0">
-                                                                    <strong><?= $sub['CreatedBy'] ?></strong>
-                                                                </a>
-                                                                <a href="" class="text-muted d-block">
-                                                                    <small><?= $sub['comment'] ?></small>
-                                                                </a>
-                                                            </div>
-                                                            <a href="" class="text-muted small ms-3 me-2"><strong>Like</strong></a>
-                                                            <!-- <a href="" class="text-muted small me-2"><strong>Report</strong></a>-->
-                                                        </div>
-                                                    </div>
-                                            <?php endforeach;
-                                            endif; ?>
-                                            <div class="d-flex mb-3">
-
-                                                <a href="">
-                                                    <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
-                                                </a>
-                                                <div class="form-outline w-100 d-flex">
-                                                    <textarea class="form-control" id="reply-3" rows="2"></textarea>
-                                                    <label class="form-label" id="reply-" for="reply-undefined">Reply to <?= $comment['Created_id'] == $_SESSION['GeneratedId'] ? 'Your Comment' : $comment['fname'] ?></label>
-                                                    <i class="fas fa-paper-plane eb-send"></i>
+                            <?php if($data_control->Comment == 1): ?>
+                            <div id="comment-main-display-<?= $news['id']?>" style="max-height: 300px;overflow-y:scroll">
+                                <?php
+                                if ($news['comments'] != null) :
+                                    foreach ($news['comments'] as $key => $comment) : ?>
+                                        <div class="d-flex mb-3 ">
+                                            <a href="">
+                                                <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
+                                            </a>
+                                            <div>
+                                                <div class="bg-light rounded-3 px-3 py-1">
+                                                    <a href="" class="text-dark mb-0">
+                                                        <strong><?= $comment['CreatedBy'] ?></strong>
+                                                    </a>
+                                                    <a href="" class="text-muted d-block">
+                                                        <small>
+                                                            <?= $comment['comment'] ?></small>
+                                                    </a>
                                                 </div>
+                                                <a href="" class="text-muted small ms-3 me-2"><strong>Like</strong></a>
+                                                <a href="" class="text-muted small me-2" data-id="3"><strong>Reply</strong></a>
+                                                <br><br>
+                                                <?php if ($comment['sub_comment'] != null) :
+                                                    foreach ($comment['sub_comment'] as $key_sub => $sub) : ?>
+                                                        <div class="d-flex mb-3">
+                                                            <a href="">
+                                                                <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
+                                                            </a>
+                                                            <div>
+                                                                <div class="bg-light rounded-3 px-3 py-1">
+                                                                    <a href="" class="text-dark mb-0">
+                                                                        <strong><?= $sub['CreatedBy'] ?></strong>
+                                                                    </a>
+                                                                    <a href="" class="text-muted d-block">
+                                                                        <small><?= $sub['comment'] ?></small>
+                                                                    </a>
+                                                                </div>
+                                                                <a href="" class="text-muted small ms-3 me-2"><strong>Like</strong></a>
+                                                                <!-- <a href="" class="text-muted small me-2"><strong>Report</strong></a>-->
+                                                            </div>
+                                                        </div>
+                                                <?php endforeach;
+                                                endif; ?>
+                                                <div class="d-flex mb-3">
+
+                                                    <a href="">
+                                                        <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
+                                                    </a>
+                                                    <div class="form-outline w-100 d-flex">
+                                                        <textarea class="form-control" id="reply-3" rows="2"></textarea>
+                                                        <label class="form-label" id="reply-" for="reply-undefined">Reply to <?= $comment['Created_id'] == $_SESSION['GeneratedId'] ? 'Your Comment' : $comment['fname'] ?></label>
+                                                        <i class="fas fa-paper-plane eb-send"></i>
+                                                    </div>
+                                                </div>
+
                                             </div>
-
                                         </div>
-                                    </div>
-
+                                <?php
+                                    endforeach;
+                                endif;
+                                ?>
+                            </div>
                             <?php
-                                endforeach;
-                            endif;
-                            ?>
+                            else: echo '<i>You dont have access To view comment.</i>';
+                            endif; ?>
                         </div>
                     </div>
                 </section>

@@ -55,6 +55,8 @@ $route['main-view'] = 'LoginController/mainView';
 $route['student-data'] = 'StudentController/getStudentData';
 $route['view-comment'] = 'StudentController/viewComment';
 $route['add-post'] = 'StudentController/addPost';
+$route['comment-post'] = 'MainController/commentPost';
+
 
 
 

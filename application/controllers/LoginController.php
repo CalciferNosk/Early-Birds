@@ -50,6 +50,7 @@ class LoginController extends CI_Controller
 
 
         $data['data'] = $this->mainViewData();
+        $data['data_control'] = $this->main_m->getDataControl($_SESSION['GeneratedId']);
         // var_dump($data);die;
         if ($_SESSION['role'] == 0) {
             $data['script'] = 'admin';
@@ -157,7 +158,7 @@ class LoginController extends CI_Controller
         foreach ($result_comment as $key => $com2) {
             array_push($comments, [
                 'id'        => $com2['id'],
-                'comment'   => $com2['sub_comment'],
+                'comment'   => $com2['comment'],
                 'CreatedBy' => $com2['role'] = '2' ? $this->getStudNameById($com2['GeneratedId'])->fullname : $this->getStudNameById($com2['GeneratedId'])->fullname,
                
             ]);
