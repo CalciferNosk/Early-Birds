@@ -1,5 +1,5 @@
 
-<link rel="icon" href="assets/img/EB.png">
+<link rel="icon" href="assets/img/EB-sun.png">
 <!-- Font Awesome -->
 <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet" />
 <!-- Google Fonts -->

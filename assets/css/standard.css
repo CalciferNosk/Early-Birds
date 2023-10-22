@@ -22,3 +22,18 @@
 .eb-font-hover:hover{
     color:#2caae5;
 }
+.eb-font-liked{
+    color:#30c3cc;
+}
+.eb-font-liked:hover{
+    color:#30c3cc !important;
+}
+.eb-font-liked:focus{
+    color:#30c3cc !important;
+}
+.eb-send{
+    color:#30c3cc !important;
+}
+.eb-send:hover{
+    color:#2caae5 !important;
+}
