@@ -21,27 +21,39 @@ $(document).ready(function(){
 			success: function (data) {
             $('.bg-light').removeAttr('style');
             $('.new-comment').text('')
-            $('#comment-main-display-'+id).prepend(`<div class="d-flex mb-3 ">
-                                                    <a href="">
-                                                        <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
-                                                    </a>
-                                                    <div>
-                                                        <div class="bg-light rounded-3 px-3 py-1" style="background-color:#9191b987 !important">
-                                                            <a href="" class="text-dark mb-0">
-                                                                <strong>Erickson Adriano</strong>
-                                                            </a>
-                                                            <a href="" class="text-muted d-block">
-                                                                <small>${text}</small>
-                                                            </a>
-                                                        </div>
-                                                        <i class="new-comment" >new</i>
-                                                        <a href="" class="text-muted small ms-3 me-2"><strong>Like</strong></a>
-                                                        <a href="" class="text-muted small me-2" data-id="3"><strong>Reply</strong></a>
-                                                        <br><br>
-                                                         
+            $('#comment-main-display-'+id).
+            prepend(`<div class="d-flex mb-3 ">
+                        <a href="">
+                            <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
+                        </a>
+                        <div>
+                            <div class="bg-light rounded-3 px-3 py-1" style="background-color:#9191b987 !important">
+                                <a href="" class="text-dark mb-0">
+                                    <strong>Erickson Adriano</strong>
+                                </a>
+                                <a href="" class="text-muted d-block">
+                                    <small>${text}</small>
+                                </a>
+                            </div>
+                           
+                            <a href="" class="text-muted small ms-3 me-2"><strong>Like</strong></a>
+                            <a href="" class="text-muted small me-2" data-id="3"><strong>Reply</strong></a>
+                            <i class="new-comment" style="color:gray" >new</i>
+                            <br><br>
+                               <!-- <div class="d-flex mb-3">
 
-                                                    </div>
-                                                </div>`);
+                                <a href="">
+                                    <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
+                                </a>
+                                <div class="form-outline w-100 d-flex">
+                                    <textarea class="form-control" id="reply-${data.last_id}" rows="2"></textarea>
+                                    <label class="form-label" id="reply-" for="reply-${data.last_id}">Reply to Your Comment</label>
+                                    <i class="fas fa-paper-plane eb-send sub-comment" data-scid="${data.last_id}"></i>
+                                </div>
+                            </div> -->
+
+                        </div>
+                    </div>`);
               
             },
 		});

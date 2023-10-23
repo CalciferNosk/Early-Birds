@@ -124,7 +124,7 @@ if (!isset($_SESSION['GeneratedId'])) redirect('') ?>
                                         <strong><?= $news['CreatedBy'] ?></strong>
                                     </a>
                                     <a href="" class="text-muted d-block" style="margin-top: -6px">
-                                        <small>10h</small>
+                                        <small><?= $news['CreatedDate'] ?></small>
                                     </a>
                                 </div>
                             </div>

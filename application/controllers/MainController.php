@@ -47,11 +47,13 @@ class MainController extends CI_Controller {
 
         if(isset($data)){
            $result['result'] =  $this->main_m->storeComment($data);
+           $result['last_id'] = $this->db->insert_id($result['result']);
            $result['fullname'] = $_SESSION['fname']. ' ' .$_SESSION['lname'];
         }
         else{
             $result['result'] = 0;
             $result['fullname'] = '';
+            $result['last_id'] =0;
         }
         echo json_encode($result);
 	}

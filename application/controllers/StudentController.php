@@ -57,8 +57,6 @@ class StudentController extends CI_Controller {
     }
     private function getSubComment($id)
     {   
-        
-      
         $result_comment = $this->stud->getSubCommentById($id);
         // var_dump($result_comment);die;
         // if($result_comment == []) return null;
@@ -68,11 +66,8 @@ class StudentController extends CI_Controller {
                 'id'        => $com2['id'],
                 'comment'   => $com2['sub_comment'],
                 'CreatedBy' => $com2['role'] = '2' ? $this->getStudNameById($com2['GeneratedId'])->fullname : $this->getStudNameById($com2['GeneratedId'])->fullname,
-               
             ]);
         }
-    
-
         return $comments;
     }
 
