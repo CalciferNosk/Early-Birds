@@ -10,8 +10,9 @@ class MainModel extends CI_Model
         parent::__construct();
     }
 
-   public function getRecord($generated_id){
-      $sql = "SELECT * FROM file_sytem.tbl_user_student WHERE UserGeneratedId = '{$generated_id}'";
+   public function getRecord($generated_id, $role){
+      $table_name = $role == 2 ? 'tbl_user_student' : 'tbl_user_teacher';
+      $sql = "SELECT * FROM {$table_name} WHERE UserGeneratedId = '{$generated_id}'";
       $result = $this->db->query($sql);
       return $result->row();
    }
@@ -43,7 +44,7 @@ class MainModel extends CI_Model
     public function getTeachNameById($id)
     {
         $sql = "SELECT 
-                    group_concat(fname, ' ' ,fname) as fullname,
+                    group_concat(fname, ' ' ,lname) as fullname,
                     fname
                 FROM
                     file_sytem.tbl_user_teacher
