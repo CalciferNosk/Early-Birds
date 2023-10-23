@@ -57,7 +57,7 @@ class LoginController extends CI_Controller
 
         if ($_SESSION['role'] == 1) {
 
-            $data['script'] = ['teacher'];
+            $data['script'] = ['teacher','mainscript'];
             _load_view($data, 'TeacherModule/TeacherView');
         }
 
@@ -76,8 +76,8 @@ class LoginController extends CI_Controller
     private function mainViewData()
     {
 
-
-        $result = $this->main_m->getRecord($_SESSION['GeneratedId']);
+        
+        $result = $this->main_m->getRecord($_SESSION['GeneratedId'], $_SESSION['role']);
         $this->createSession($result);
         $result_newsfeed  = $this->main_m->getAllNewsFeed($_SESSION['GeneratedId']);
 
@@ -87,7 +87,7 @@ class LoginController extends CI_Controller
 
             array_push($newsfeed, [
                 'Created_id'    => $res['CreatedBy'], 
-                'CreatedBy'     => $res['role'] = 2 ? $this->getStudNameById($res['CreatedBy'])->fullname : $this->getStudNameById($res['CreatedBy'])->fullname,
+                'CreatedBy'     => $res['role'] == 2 ? $this->getStudNameById($res['CreatedBy'])->fullname : $this->getTeachNameById($res['CreatedBy'])->fullname,
                 'newsfeed'      =>  $res['Label'],
                 'tag'           => $res['tag_id'] == null ? null : '',
                 'like_total'    => (int)$this->main_m->getLikeTotal($res['id'])->count,
@@ -100,12 +100,15 @@ class LoginController extends CI_Controller
         }
 
         // $data['newsfeed'] = $newsfeed;
+        // echo '<pre>';
+        // var_dump($newsfeed);die;
         $data['result'] = $result;
         return $newsfeed;
     }
 
     private function createSession($result)
     {
+        // echo json_encode($result);die;
         $_SESSION['fname'] = $result->fname;
         $_SESSION['mname'] = $result->mname;
         $_SESSION['lname'] = $result->lname;
