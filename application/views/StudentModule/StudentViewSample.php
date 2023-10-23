@@ -207,6 +207,7 @@ if (!isset($_SESSION['GeneratedId'])) redirect('') ?>
                                                 <a href="" class="text-muted small ms-3 me-2"><strong>Like</strong></a>
                                                 <a href="" class="text-muted small me-2" data-id="3"><strong>Reply</strong></a>
                                                 <br><br>
+                                                <div id="sub-comment-main-display-<?= $comment['id']?>">
                                                 <?php if ($comment['sub_comment'] != null) :
                                                     foreach ($comment['sub_comment'] as $key_sub => $sub) : ?>
                                                         <div class="d-flex mb-3">
@@ -228,15 +229,16 @@ if (!isset($_SESSION['GeneratedId'])) redirect('') ?>
                                                         </div>
                                                 <?php endforeach;
                                                 endif; ?>
+                                                </div>
                                                 <div class="d-flex mb-3">
 
                                                     <a href="">
                                                         <img onerror="this.src='http://localhost/Early-Birds/assets/img/default.jpg'" src="http://localhost/Early-Birds/assets/img/default.jpg" class="border rounded-circle me-2" alt="Avatar" style="height: 40px">
                                                     </a>
                                                     <div class="form-outline w-100 d-flex">
-                                                        <textarea class="form-control" id="reply-3" rows="2"></textarea>
-                                                        <label class="form-label" id="reply-" for="reply-undefined">Reply to <?= $comment['Created_id'] == $_SESSION['GeneratedId'] ? 'Your Comment' : $comment['fname'] ?></label>
-                                                        <i class="fas fa-paper-plane eb-send"></i>
+                                                        <textarea class="form-control" id="reply-<?= $comment['id']?>" rows="2"></textarea>
+                                                        <label class="form-label" id="reply-" for="reply-<?= $comment['id']?>">Reply to <?= $comment['Created_id'] == $_SESSION['GeneratedId'] ? 'Your Comment' : $comment['fname'] ?></label>
+                                                        <i class="fas fa-paper-plane eb-send sub-comment" data-scid ="<?= $comment['id']?>"></i>
                                                     </div>
                                                 </div>
 

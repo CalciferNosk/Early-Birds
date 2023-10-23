@@ -28,6 +28,7 @@ class MainController extends CI_Controller {
      }
 	public function commentPost()
 	{
+        // var_dump($_POST);die;
 		if($_POST['comment_to'] == 'post'){
             $data = [
                 'newsfeed_id' => $_POST['newsfeed_id'],
@@ -36,9 +37,9 @@ class MainController extends CI_Controller {
             ];
         }
 
-        if($_POST['comment_to'] == 'parent_comment'){
+        if($_POST['comment_to'] == 'sub_comment'){
             $data = [
-                'parent_comment_id' => $_POST['id'],
+                'parent_comment_id' => $_POST['comment_id'],
                 'comment'     => $_POST['comment_text'],
                 'CreatedBy'   => $this->user 
             ];
@@ -46,9 +47,11 @@ class MainController extends CI_Controller {
 
         if(isset($data)){
            $result['result'] =  $this->main_m->storeComment($data);
+           $result['fullname'] = $_SESSION['fname']. ' ' .$_SESSION['lname'];
         }
         else{
             $result['result'] = 0;
+            $result['fullname'] = '';
         }
         echo json_encode($result);
 	}

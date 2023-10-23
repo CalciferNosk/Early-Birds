@@ -16,7 +16,7 @@ class LoginController extends CI_Controller
         if (isset($_SESSION['role'])) {
             redirect('main-view');
         }
-        $data['script'] = 'login';
+        $data['script'] = ['login'];
         _load_view($data, 'LoginView');
     }
 
@@ -47,19 +47,17 @@ class LoginController extends CI_Controller
         if (!isset($_SESSION['role']) || $_SESSION['role'] >= 3) {
             redirect('');
         }
-
-
         $data['data'] = $this->mainViewData();
         $data['data_control'] = $this->main_m->getDataControl($_SESSION['GeneratedId']);
         // var_dump($data);die;
         if ($_SESSION['role'] == 0) {
-            $data['script'] = 'admin';
+            $data['script'] = ['admin'];
             _load_view($data, 'AdminModule/AdminView');
         }
 
         if ($_SESSION['role'] == 1) {
 
-            $data['script'] = 'teacher';
+            $data['script'] = ['teacher'];
             _load_view($data, 'TeacherModule/TeacherView');
         }
 
@@ -88,7 +86,7 @@ class LoginController extends CI_Controller
         foreach ($result_newsfeed as $key => $res) {
 
             array_push($newsfeed, [
-                'Created_id'  => $res['CreatedBy'], 
+                'Created_id'    => $res['CreatedBy'], 
                 'CreatedBy'     => $res['role'] = 2 ? $this->getStudNameById($res['CreatedBy'])->fullname : $this->getStudNameById($res['CreatedBy'])->fullname,
                 'newsfeed'      =>  $res['Label'],
                 'tag'           => $res['tag_id'] == null ? null : '',
