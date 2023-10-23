@@ -9,7 +9,7 @@ class LoginController extends CI_Controller
     {
         parent::__construct();
         $this->load->model('LoginModel', 'login_m');
-        $this->load->model('MainModel','main_m');
+        $this->load->model('MainModel', 'main_m');
     }
     public function index()
     {
@@ -62,8 +62,8 @@ class LoginController extends CI_Controller
         }
 
         if ($_SESSION['role'] == 2) {
-            $data['script'] = ['student','mainscript'];
-            _load_view($data, 'StudentModule/StudentViewSample',$data);
+            $data['script'] = ['student', 'mainscript'];
+            _load_view($data, 'StudentModule/StudentViewSample', $data);
         }
 
         // if($_SESSION['role'] == 2){
@@ -80,11 +80,9 @@ class LoginController extends CI_Controller
         $result = $this->main_m->getRecord($_SESSION['GeneratedId'], $_SESSION['role']);
         $this->createSession($result);
         $result_newsfeed  = $this->main_m->getAllNewsFeed($_SESSION['GeneratedId']);
-
-
         $newsfeed = [];
         foreach ($result_newsfeed as $key => $res) {
-
+            $dateCreated = strtotime($res['CreatedDate']);
             array_push($newsfeed, [
                 'Created_id'    => $res['CreatedBy'], 
                 'CreatedBy'     => $res['role'] == 2 ? $this->getStudNameById($res['CreatedBy'])->fullname : $this->getTeachNameById($res['CreatedBy'])->fullname,
@@ -124,16 +122,15 @@ class LoginController extends CI_Controller
     {
         return  $this->main_m->getTeachNameById($id);
     }
-    private function countComment($id){
+    private function countComment($id)
+    {
         return $this->main_m->countComment($id);
-
     }
     private function getComment($id)
     {
-      
         $result_comment = $this->main_m->getAllCommentById($id);
         // var_dump($result_comment);die;
-        if($result_comment == []) return null;
+        if ($result_comment == []) return null;
         $comments = [];
         foreach ($result_comment as $key => $com) {
             array_push($comments, [
@@ -149,9 +146,7 @@ class LoginController extends CI_Controller
         return $comments;
     }
     private function getSubComment($id)
-    {   
-        
-      
+    {
         $result_comment = $this->main_m->getSubCommentById($id);
         // var_dump($result_comment);die;
         // if($result_comment == []) return null;
@@ -161,10 +156,10 @@ class LoginController extends CI_Controller
                 'id'        => $com2['id'],
                 'comment'   => $com2['comment'],
                 'CreatedBy' => $com2['role'] = '2' ? $this->getStudNameById($com2['GeneratedId'])->fullname : $this->getStudNameById($com2['GeneratedId'])->fullname,
-               
+
             ]);
         }
-    
+
 
         return $comments;
     }
