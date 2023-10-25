@@ -30,7 +30,7 @@ class LoginController extends CI_Controller
             if (!empty($result)) {
                 if (password_verify($post['password'], $result->password)) {
                     $data['resultfetch'] = 1;
-
+                    $_SESSION['groups'] = $this->main_m->getGroup($result->GeneratedId)->group_access;
                     $_SESSION['GeneratedId']  = $result->GeneratedId;
                     $_SESSION['role']  =  $result->role;
                 } else {
@@ -47,8 +47,12 @@ class LoginController extends CI_Controller
         if (!isset($_SESSION['role']) || $_SESSION['role'] >= 3) {
             redirect('');
         }
+
+        // $data['time_records'] = $this->main_m->getTimeRecordToday($_SESSION['groups']);
+        // echo '<pre>'.json_encode($data);die;
         $data['data'] = $this->mainViewData();
         $data['data_control'] = $this->main_m->getDataControl($_SESSION['GeneratedId']);
+        $data['login_status'] = $this->main_m->checkLoginStatus();
         // var_dump($data);die;
         if ($_SESSION['role'] == 0) {
             $data['script'] = ['admin'];
@@ -61,15 +65,11 @@ class LoginController extends CI_Controller
             _load_view($data, 'TeacherModule/TeacherView');
         }
 
-        if ($_SESSION['role'] == 2) {
-            $data['script'] = ['student', 'mainscript'];
-            _load_view($data, 'StudentModule/StudentViewSample', $data);
-        }
 
-        // if($_SESSION['role'] == 2){
-        //     $data['script'] = ['student','mainscript']; 
-        //     _load_view($data,'StudentModule/StudentView');
-        // }
+        if($_SESSION['role'] == 2){
+            $data['script'] = ['student','mainscript']; 
+            _load_view($data,'StudentModule/StudentView');
+        }
 
     }
 
@@ -79,12 +79,13 @@ class LoginController extends CI_Controller
         
         $result = $this->main_m->getRecord($_SESSION['GeneratedId'], $_SESSION['role']);
         $this->createSession($result);
-        $result_newsfeed  = $this->main_m->getAllNewsFeed($_SESSION['GeneratedId']);
+        $result_newsfeed  = $this->main_m->getAllNewsFeed($_SESSION['GeneratedId'],);
         $newsfeed = [];
         foreach ($result_newsfeed as $key => $res) {
-            $dateCreated = strtotime($res['CreatedDate']);
+            $dateCreated = date_create($res['CreatedDate']);;
             array_push($newsfeed, [
                 'Created_id'    => $res['CreatedBy'], 
+                'CreatedDate'   => date_format($dateCreated,"M d, Y : g a"),
                 'CreatedBy'     => $res['role'] == 2 ? $this->getStudNameById($res['CreatedBy'])->fullname : $this->getTeachNameById($res['CreatedBy'])->fullname,
                 'newsfeed'      =>  $res['Label'],
                 'tag'           => $res['tag_id'] == null ? null : '',

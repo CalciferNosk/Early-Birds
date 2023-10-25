@@ -136,7 +136,7 @@ class StudentController extends CI_Controller {
                 }
               }
         }else{
-            $data['upload-msg'] = 0;
+            $data['upload_msg'] = 0;
             $data['upload'] = "";
             $data['insert'] = $this->stud->insertPost($_POST['post_text']);
 

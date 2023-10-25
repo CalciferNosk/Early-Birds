@@ -1,4 +1,94 @@
 $(document).ready(function(){
+    setInterval(function () {
+        loadUserStatus()
+
+    }, 5000);
+    $(document).on('click','.timein-user',function(){
+        $.ajax({
+			type: "POST",
+			url: `${base_url}time-in`,
+			data: {
+                confirm: 1
+            },
+			dataType: "json",
+			success: function (data) {
+                if(data.result == 1){
+                    loadUserStatus()
+                }
+                else{
+                    alert('error!:please contant Developer.')
+                }
+              
+            },
+		});
+        
+    })
+    $(document).on('click','.timeout-user',function(){
+        var timein_id = $(this).data('timeinid');
+
+        if(timein_id == null){
+            alert(`time in first`);
+        }
+        $.ajax({
+			type: "POST",
+			url: `${base_url}time-out`,
+			data: {
+                confirm: 1,
+                timein_id:timein_id
+            },
+			dataType: "json",
+			success: function (data) {
+                if(data.result == 1){
+                    loadUserStatus()
+                }
+                else{
+                    alert('error!:please contant Developer.')
+                }
+              
+            },
+		});
+        
+    })
+
+
+
+    function loadUserStatus(){
+        $.ajax({
+			type: "POST",
+			url: `${base_url}get-time-record`,
+			data: {
+                confirm: 1
+            },
+			dataType: "json",
+			success: function (data) {
+                var td = `<thead>
+                                <th>Name</th>
+                                <th>Group</th>
+                                <th>Status</th>
+                        </thead>
+                        <tbody>`;
+                $.each(data.result,function(k,v){
+                    td += `
+                            
+                          
+                             <tr style="${v.color} !important;border-bottom:1px solid #9c96964d">
+                                <td style="padding:5px">${v.fullname}</td>
+                                <td style="padding:5px">${v.group}</td>
+                                <td style="padding:5px">${v.status}</td>
+                             </tr>
+                            `;
+                })
+                td += `</tbody>`;
+                $('.loader').hide();
+                $('#get-time-record-display').html(td);
+              
+            },
+		});
+    }
+    
+    $('#load-btn').on('click',function(){
+        window.location.reload(0)
+    })
     $('.comment-parent').on('click',function(){
         var id = $(this).data('nfid');
         var text = $('#comment-parent-'+id).val();
@@ -11,6 +101,7 @@ $(document).ready(function(){
         formData.append('newsfeed_id',id);
         formData.append('comment_to','post');
         $('#comment-parent-'+id).val('')
+        $('#loadinh').show()
         $.ajax({
 			type: "POST",
 			url: `${base_url}comment-post`,
@@ -54,6 +145,7 @@ $(document).ready(function(){
 
                         </div>
                     </div>`);
+                    $('#loadinh').hide()
               
             },
 		});

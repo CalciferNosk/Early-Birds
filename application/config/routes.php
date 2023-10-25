@@ -51,12 +51,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 */
 $route['default_controller'] = 'LoginController';
 $route['user-login'] = 'LoginController/userLogin';
+$route['user-register'] = 'RegisterController/registerUser';
 $route['main-view'] = 'LoginController/mainView';
 $route['student-data'] = 'StudentController/getStudentData';
 $route['view-comment'] = 'StudentController/viewComment';
 $route['add-post'] = 'StudentController/addPost';
 $route['comment-post'] = 'MainController/commentPost';
-
+$route['get-time-record'] = 'MainController/getTimeRecord';
+$route['time-in']   = 'MainController/timeInUser';
+$route['time-out']   = 'MainController/timeOutUser';
+$route['send-email'] = 'PhpMailController/send';
+$route['send-vendor'] = 'PhpMailController/sendVendor';
 
 
 

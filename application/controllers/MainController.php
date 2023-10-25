@@ -57,4 +57,54 @@ class MainController extends CI_Controller {
         }
         echo json_encode($result);
 	}
+    public function getTimeRecord(){
+        $array = [];
+        if($_SESSION['groups'] == []){
+
+        }else{
+            $result = $this->main_m->getTimeRecordToday($_SESSION['groups']);
+
+            foreach($result as $key => $res){
+                if($res['TimeOut'] == null){
+                    if($res['TimeIn'] == null){
+                        $color = ' background-image: linear-gradient(to right, #e1e1e163 , white);';
+                        $status= $res['GeneratedId'] == $_SESSION['GeneratedId'] ? ' <button class="btn btn-success timein timein-user"  style="width:75px">Time-in</button>' : '<span style="color:gray">Inactive</span>';
+                    }
+                    else{
+                        $color = 'background-image: linear-gradient(to right, #88f55859 , white)';
+                        $status =  $res['GeneratedId'] == $_SESSION['GeneratedId']  ?'<button class="btn btn-info timein timeout-user" data-timeinid="'. $res['id'].'" style="width:75px">Time-out</button>' : '<span style="color:green">Active</span>';
+                    }
+                }else{
+                    $color = 'background-image: linear-gradient(to right, #47aaf742 , white) ';
+                    $status = '<span style="color:blue">Out</span>';
+                }
+                array_push($array,[
+                    'UserId' => $res['UserId'],
+                    'status'=> $status,
+                    'color' => $color,
+                    'group' => _getGroupName($res['GroupId']),
+                    'role'=> $res['role'],
+                    'fullname'=> _getFullName($res['role'],$res['GeneratedId'])->fullname ,
+                ]);
+            }
+        }
+       
+        $data['result'] = $array;
+        echo json_encode($data);
+    }
+
+    public function timeInUser(){
+
+        $data['result'] = $this->main_m->timeInUser();
+
+        echo json_encode($data);
+    }
+    public function timeOutUser(){
+
+        $data['result'] = $this->main_m->timeOutUser($_POST['timein_id']);
+
+        echo json_encode($data);
+    }
+
+   
 }
