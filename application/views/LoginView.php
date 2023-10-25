@@ -67,32 +67,35 @@
                 </div>
 
                 <div class="tab-pane fade" id="pills-register" role="tabpanel" aria-labelledby="tab-register">
-                    <form>
+                    <form action="" method="post" id="register-form" enctype="multipart/form-data" data-formstate="0" data-otptries="3" data-otpstate="0" data-otp-exp-min="5">
                         <div class="text-center mb-3">
                             <p>Sign up Earl Birds</p>
                            
                         </div>
                         <!-- Name input -->
                         <div class="form-outline mb-4">
-                            <input type="text" id="registerName" class="form-control" />
-                            <label class="form-label" for="registerName">Name</label>
+                            <input type="text" id="registerfName" name="fname" class="form-control" />
+                            <label class="form-label" for="registerName">First Name</label>
                         </div>
-
-                        <!-- Username input -->
                         <div class="form-outline mb-4">
-                            <input type="text" id="registerUsername" class="form-control" />
-                            <label class="form-label" for="registerUsername">Username</label>
+                            <input type="text" id="registernName" name="mname" class="form-control" />
+                            <label class="form-label" for="registerName">Middle Name</label>
                         </div>
+                        <div class="form-outline mb-4">
+                            <input type="text" id="registerlName" name="lname" class="form-control" />
+                            <label class="form-label" for="registerName">Last Name</label>
+                        </div>
+                    
 
                         <!-- Email input -->
                         <div class="form-outline mb-4">
-                            <input type="email" id="registerEmail" class="form-control" />
+                            <input type="email" id="registerEmail" name="email" class="form-control" />
                             <label class="form-label" for="registerEmail">Email</label>
                         </div>
 
                         <!-- Password input -->
                         <div class="form-outline mb-4">
-                            <input type="password" id="registerPassword" class="form-control" />
+                            <input type="password" id="registerPassword" name="password" class="form-control" />
                             <label class="form-label" for="registerPassword">Password</label>
                         </div>
 
@@ -119,7 +122,7 @@
         </div>
     </div>
 
-    <script src="<?= base_url() ?>assets/js/login.js"></script>
+    <!-- <script src="<?= base_url() ?>assets/js/login.js"></script> -->
 </body>
 
 </html>

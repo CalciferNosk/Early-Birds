@@ -1,6 +1,24 @@
 
 
 
+$(document).ready(function(){
+    $('#news-feed-create-btn').show();
+    $('.nav-show').on('click',function(){
+        var show_id = $(this).data('show');
+        if(show_id == 'main-home'){
+            $('#news-feed-create-btn').show();
+        }
+        else{
+            $('#news-feed-create-btn').css('display','none');
+        }
+        $('.content-view').hide();
+        $('#'+show_id).show();
+
+
+    })
+})
+
+
 $(document).on('click','#logout',function(){
     // alert. here
     location.href = base_url+'logout';
@@ -12,6 +30,12 @@ $(window).on('load',function(){
 
 
 
+
+
+
+
+
+/// removed this 
 function loadNewsFeed(){
    
     $.ajax({

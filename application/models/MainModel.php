@@ -140,4 +140,96 @@ class MainModel extends CI_Model
 
         return $result->row();
     }
+    public function getTimeRecordToday($group){
+        
+        $data_today = date('Y-m-d');
+        $sql = "SELECT
+                        *
+                FROM
+                (
+                    SELECT 
+                        GroupId,
+                        UserId
+                    FROM
+                        file_sytem.tbl_group_access
+                    WHERE
+                        DeletedTag = 0 AND GroupId in({$group}) group by UserId
+                ) as a 
+                left JOIN 
+                    (SELECT id,TimeIn,TimeOut,UserId FROM tbl_time_records WHERE DeletedTag = 0 AND TImeIn like '{$data_today}%') as b on a.UserId = b.UserId
+                left join 
+		            (SELECT role,GeneratedId from tbl_user) as c on c.GeneratedId = a.UserId
+                order by a.UserId = {$_SESSION['GeneratedId']} desc
+                    ";
+  
+        return $this->db->query($sql)->result_array();
+    }
+
+    public function getGroup($id){
+       
+        $sql = "SELECT group_concat(GroupId) as group_access FROM file_sytem.tbl_group_access WHERE UserId ='{$id}'";
+    
+        return $this->db->query($sql)->row();
+
+    }
+    public function addUser($data_control,$data_info,$data_user){
+
+        $user = $this->db->insert('tbl_user',$data_user);
+        if($user == 1){
+            $info = $this->db->insert('tbl_user_student',$data_info);
+
+            if($info == 1){
+                $data['error'] = $this->db->insert('tbl_data_control',$data_control);
+            }
+            else{
+                $data['error'] = 0;
+            }
+        }
+        else{
+            $data['error'] = 0;
+        }
+
+      return $data;
+    }
+
+    public function checkUser($post){
+        $sql = "SELECT count(*) as user_count FROM file_sytem.tbl_user_student WHERE fname = '{$post['fname']}' AND lname = '{$post['lname']}'";
+        return $this->db->query($sql)->row();
+    }
+    public function checkLoginStatus(){
+        $data_today = date('Y-m-d');
+        $sql = "SELECT 
+                    *
+                FROM
+                    (SELECT GeneratedId FROM tbl_user) as a
+                right join 
+                    file_sytem.tbl_time_records b on a.GeneratedId = b.UserId
+                WHERE b.UserId = '2310190106' AND b.TimeIn like '{$data_today}%'";
+        return $this->db->query($sql)->row();
+    }
+
+    public function timeInUser(){
+        $data = [
+            'UserId'     => $_SESSION['GeneratedId'],
+            'CreatedBy'  => $_SESSION['GeneratedId'],
+            'TimeIn'     => date('Y-m-d h:i:s'),
+            'CreatedDate'=>date('Y-m-d h:i:s')
+        ];
+        return  $this->db->insert('tbl_time_records',$data);
+    }
+    public function timeOutUser($id){
+        $user_check = $this->db->query("SELECT UserId FROM file_sytem.tbl_time_records WHERE id = {$id}")->row()->UserId;
+        if($user_check !=  $_SESSION['GeneratedId']) return false;
+        $data = [
+            'UpdatedBy'     => $_SESSION['GeneratedId'],
+            'UpdatedDate'   => date('Y-m-d h:i:s'),
+            'TimeOut'       => date('Y-m-d h:i:s')
+        ];
+              $this->db->where('id',$id);
+      return  $this->db->update('tbl_time_records', $data);
+    }
+    public function getGroupName($group_id){
+        $sql = "SELECT * FROM file_sytem.tbl_group Where id = {$group_id}";
+    return $this->db->query($sql)->row();
+    }
 }
